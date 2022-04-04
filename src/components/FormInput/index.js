@@ -6,16 +6,17 @@ const FormInput = ({ handleSubmit }) => {
   const [qtd, setQtd] = useState(null);
   const [id, setId] = useState(0);
 
-  const todoCreate = (text, qtd) => {
-    if (text == "" || qtd == "") {
+  const itemCreate = (text, qtd) => {
+    if (text === "" || qtd === "") {
       alert("Informe o produto e a quantidade!");
       return false;
     }
 
-    const todoObj = { id: id, name: text, qtd: qtd, checkList: false };
-    console.log(todoObj);
+    const itemObj = { id: id, name: text, qtd: +qtd, checkList: false };
+
     setId(id + 1);
-    handleSubmit(todoObj);
+
+    handleSubmit(itemObj);
   };
 
   return (
@@ -31,18 +32,23 @@ const FormInput = ({ handleSubmit }) => {
               type="text"
               placeholder="Digite um produto"
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={e => setText(e.target.value)}
             />
             <Input
               style={{ width: 200 }}
               type="text"
               placeholder="Digite quantidade"
               value={qtd}
-              onChange={(e) => setQtd(e.target.value)}
+              onChange={e => setQtd(e.target.value)}
             />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
-            <Button type="primary" onClick={() => todoCreate(text, qtd)}>
+            <Button
+              type="primary"
+              onClick={event => {
+                event.preventDefault();
+                itemCreate(text, qtd);
+              }}>
               Adicionar
             </Button>
           </Form.Item>

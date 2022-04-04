@@ -1,38 +1,31 @@
 import React, { useState } from "react";
 import { Divider, Row, Col } from "antd";
+
 import FormInput from "./components/FormInput";
 import ListProdutos from "./components/ListProdutos";
+
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 
 function App() {
   const [list, setList] = useState([]);
 
-  const addList = (todo) => {
-    setList([...list, todo]);
+  const addList = item => {
+    setList([...list, item]);
   };
 
-  const deleteList = (id) => {
-    var filtred = list.filter((list) => list.id !== id);
+  const deleteList = id => {
+    const filtred = list.filter(list => list.id !== id);
     setList(filtred);
   };
 
   const checkList = (id, status) => {
-    //console.log(status);
-    var filtred = list.reduce(function (total, item) {
-      var idList = item.id;
-
-      if (idList == id) {
-        console.log(item);
-        item.checkList = status;
+    const filtred = list.map(function (item) {
+      if (item.id === id) {
+        return { ...item, checkList: status };
       }
-
-      return total;
+      return item;
     });
-
-    console.log("--------");
-    console.log(filtred);
-    console.log("--------");
-    //setList(filtred);
+    setList(filtred);
   };
 
   return (
@@ -44,11 +37,7 @@ function App() {
         <Col span={16}>
           <div className="lista-compras-container">
             <FormInput handleSubmit={addList} />
-            <ListProdutos
-              itemList={list}
-              deleteList={deleteList}
-              checkList={checkList}
-            />
+            <ListProdutos itemList={list} deleteList={deleteList} checkList={checkList} />
           </div>
         </Col>
       </Row>
